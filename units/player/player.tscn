@@ -1,13 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://7ymmtavept26"]
+[gd_scene load_steps=4 format=3 uid="uid://7ymmtavept26"]
 
 [ext_resource type="Script" uid="uid://cye2e4sr7m3m6" path="res://units/player/player.gd" id="1_843kq"]
+[ext_resource type="Texture2D" uid="uid://31yb7p0a7454" path="res://assets/extracts/player.png" id="2_lhv14"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lhv14"]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_843kq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_lhv14")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(-32, 0)
+collision_mask = 5
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lhv14")

@@ -1,13 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://bcondh1b4pvj3"]
+[gd_scene load_steps=3 format=4 uid="uid://bcondh1b4pvj3"]
 
 [ext_resource type="PackedScene" uid="uid://dk0njse36dbkx" path="res://assets/tile_maps/tile_map_layer.tscn" id="1_hofe7"]
-[ext_resource type="Script" uid="uid://c4stvalt1c2a3" path="res://scenes/training_camp/training_camp.gd" id="1_ukq3u"]
 [ext_resource type="PackedScene" uid="uid://7ymmtavept26" path="res://units/player/player.tscn" id="2_4qnsn"]
-[ext_resource type="PackedScene" uid="uid://88efdfwx1ys1" path="res://components/trigger_area/trigger_area.tscn" id="3_tfap0"]
-[ext_resource type="PackedScene" uid="uid://y1tfrgrnqhu4" path="res://ui/player_status/player_status.tscn" id="5_c6lg1"]
 
 [node name="TrainingCamp" type="Node2D"]
-script = ExtResource("1_ukq3u")
 
 [node name="TileMapLayer" parent="." instance=ExtResource("1_hofe7")]
 
@@ -17,22 +13,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAIAAAABAAAAAAABAAIAAAACAAAAAAABAAI
 [node name="Player" parent="." instance=ExtResource("2_4qnsn")]
 position = Vector2(112, 80)
 
-[node name="TriggerArea" parent="." instance=ExtResource("3_tfap0")]
-position = Vector2(128, 288)
-
-[node name="CollisionShape2D" parent="TriggerArea" index="0"]
-position = Vector2(48, -16)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PlayerStatus" parent="CanvasLayer" instance=ExtResource("5_c6lg1")]
-
-[node name="DamageTest" parent="." instance=ExtResource("3_tfap0")]
-position = Vector2(288, 128)
-
-[connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_area_body_entered"]
-[connection signal="body_entered" from="DamageTest" to="." method="_on_damage_test_body_entered"]
-
 [editable path="TileMapLayer"]
-[editable path="TriggerArea"]
-[editable path="CanvasLayer/PlayerStatus"]
