@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://by4askp7qf630"]
+
+[ext_resource type="Script" uid="uid://blnau4i7d7lbi" path="res://globals/global_manager/global_manager.gd" id="1_ip8mp"]
+
+[node name="GlobalManager" type="Node"]
+script = ExtResource("1_ip8mp")

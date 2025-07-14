@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://7ymmtavept26"]
+[gd_scene load_steps=2 format=3 uid="uid://7ymmtavept26"]
+
+[ext_resource type="Script" uid="uid://cye2e4sr7m3m6" path="res://units/player/player.gd" id="1_843kq"]
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_843kq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
