@@ -47,7 +47,7 @@ func _interact() -> void:
 	pass
 
 func _fight() -> void:
-	pass
+	sprite.flip_h = true
 
 func _dead() -> void:
 	pass
@@ -61,3 +61,6 @@ func _update_raycast(dir: Vector2) -> bool:
 	if !ray_cast.is_colliding():
 		result = true
 	return result
+
+func perform_atk() -> void:
+	pass
