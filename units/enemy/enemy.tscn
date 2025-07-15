@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://37kkea5x26j6"]
+
+[ext_resource type="Script" uid="uid://xfokuq6p5x3y" path="res://units/enemy/enemy.gd" id="1_u0i8j"]
+[ext_resource type="Texture2D" uid="uid://31yb7p0a7454" path="res://assets/extracts/player.png" id="2_cuwl4"]
+[ext_resource type="Texture2D" uid="uid://f0oqn7fjef5p" path="res://assets/ui/eneny_hp_container.png" id="3_h5mgi"]
+[ext_resource type="Texture2D" uid="uid://bsahflr6uuxa8" path="res://assets/ui/enemy_hp.png" id="4_r7pne"]
+[ext_resource type="Texture2D" uid="uid://bfsjpkwpwp2ge" path="res://assets/ui/enemy_damage.png" id="4_u0ar7"]
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_u0i8j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cuwl4")
+
+[node name="EnemyHP" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="EnemyHP"]
+position = Vector2(0, -21)
+texture = ExtResource("3_h5mgi")
+
+[node name="DamageBar" type="TextureProgressBar" parent="EnemyHP"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -22.0
+offset_right = 7.0
+offset_bottom = -20.0
+value = 100.0
+texture_progress = ExtResource("4_u0ar7")
+metadata/_edit_use_anchors_ = true
+
+[node name="LifeBar" type="TextureProgressBar" parent="EnemyHP"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -22.0
+offset_right = 7.0
+offset_bottom = -20.0
+value = 100.0
+texture_progress = ExtResource("4_r7pne")
+metadata/_edit_use_anchors_ = true
+
+[node name="CursorPosition" type="Marker2D" parent="."]
+position = Vector2(-24, 0)

@@ -8,10 +8,11 @@ class_name Player
 enum STATES{
 	MOVING,
 	INTERACTING,
+	FIGHTING,
 	DEAD
 }
 
-@onready var current_state: STATES = STATES.MOVING
+@export var current_state: STATES = STATES.MOVING
 
 
 func _process(delta: float) -> void:
@@ -20,6 +21,8 @@ func _process(delta: float) -> void:
 			_move(delta)
 		STATES.INTERACTING:
 			_interact()
+		STATES.FIGHTING:
+			_fight()
 		STATES.DEAD:
 			_dead()
 
@@ -41,6 +44,9 @@ func _move(delta) -> void:
 		sprite.flip_h = true
 
 func _interact() -> void:
+	pass
+
+func _fight() -> void:
 	pass
 
 func _dead() -> void:

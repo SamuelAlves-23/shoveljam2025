@@ -24,8 +24,9 @@ func train_stat(stat: String) -> void:
 	player_stats["exp_mult"] -= 0.15
 
 func damage(amount: int)-> void:
-	player_stats["current_hp"] -= amount - player_stats["defense"]
-	player_damaged.emit(amount)
+	var total_amount: int = amount - player_stats["defense"]
+	player_stats["current_hp"] -= total_amount
+	player_damaged.emit(total_amount)
 
 func reset_stats() -> void:
 	player_stats = {
