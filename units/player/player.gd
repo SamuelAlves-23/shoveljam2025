@@ -14,6 +14,8 @@ enum STATES{
 
 @export var current_state: STATES = STATES.MOVING
 
+func _ready() -> void:
+	PlayerStats.connect("player_dead", player_dead)
 
 func _process(delta: float) -> void:
 	match current_state:
@@ -50,8 +52,10 @@ func _fight() -> void:
 	sprite.flip_h = true
 
 func _dead() -> void:
-	pass
+	sprite.hide()
 
+func player_dead() -> void:
+	current_state = STATES.DEAD
 
 func _update_raycast(dir: Vector2) -> bool:
 	var result: bool = false
@@ -61,6 +65,3 @@ func _update_raycast(dir: Vector2) -> bool:
 	if !ray_cast.is_colliding():
 		result = true
 	return result
-
-func perform_atk() -> void:
-	pass

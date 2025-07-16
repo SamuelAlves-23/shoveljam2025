@@ -23,6 +23,8 @@ enum STATES{
 func _ready() -> void:
 	battle_cursor.global_position = cursor_rest_pos
 	battle_ui.connect("attack_pressed", atk_btn_pressed)
+	for enemy in enemies:
+		enemy.connect("enemy_dead", erase_enemy)
 
 func _process(delta) -> void:
 	match current_state:
@@ -32,6 +34,9 @@ func _process(delta) -> void:
 			target_selection()
 		STATES.ENEMY_TURN:
 			enemy_turn()
+
+func erase_enemy(enemy) -> void:
+	enemies.erase(enemy)
 
 func atk_btn_pressed() -> void:
 	current_state = STATES.TARGETING

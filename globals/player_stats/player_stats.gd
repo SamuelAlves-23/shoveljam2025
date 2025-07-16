@@ -1,13 +1,15 @@
 extends Node
 
 signal player_damaged(current_hp)
+signal player_dead()
 
 @onready var player_stats: Dictionary = {
 	"max_hp" : 100,
 	"current_hp": 100,
-	"attack": 10,
+	"attack": 70,
 	"defense": 5,
-	"exp_mult": 2.0
+	"exp_mult": 2.0,
+	"parry_chance": 0.1
 }
 
 @onready var skills: Array = []
@@ -27,6 +29,8 @@ func damage(amount: int)-> void:
 	var total_amount: int = amount - player_stats["defense"]
 	player_stats["current_hp"] -= total_amount
 	player_damaged.emit(total_amount)
+	if player_stats["current_hp"] <= 0:
+		player_dead.emit()
 
 func reset_stats() -> void:
 	player_stats = {
