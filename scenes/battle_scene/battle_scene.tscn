@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://drosmg331bt1o"]
+[gd_scene load_steps=8 format=4 uid="uid://drosmg331bt1o"]
 
 [ext_resource type="PackedScene" uid="uid://dk0njse36dbkx" path="res://assets/tile_maps/tile_map_layer.tscn" id="1_oofy8"]
 [ext_resource type="Script" uid="uid://jp31f6t2xtd" path="res://scenes/battle_scene/battle_scene.gd" id="1_qc2rq"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cdnlynldmg8ig" path="res://ui/battle_ui/battle_ui.tscn" id="3_joy3q"]
 [ext_resource type="PackedScene" uid="uid://7ymmtavept26" path="res://units/player/player.tscn" id="6_8r7ii"]
 [ext_resource type="Texture2D" uid="uid://bc5lfaua2ptgi" path="res://assets/ui/battle_cursor.png" id="6_gp27x"]
+[ext_resource type="PackedScene" uid="uid://cn25pb2mwr4bj" path="res://ui/actions_holder/actions_holder.tscn" id="7_8r7ii"]
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_qc2rq")
@@ -43,5 +44,8 @@ position = Vector2(224, -160)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 192)
 zoom = Vector2(1.5, 1.5)
+
+[node name="ActionsHolder" parent="." instance=ExtResource("7_8r7ii")]
+position = Vector2(272, 176)
 
 [editable path="TileMapLayer"]

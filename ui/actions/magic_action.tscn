@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://o48js2c1lgn4"]
+
+[ext_resource type="Texture2D" uid="uid://dhe15o0guxld2" path="res://assets/ui/magic_action.png" id="1_3tmfi"]
+[ext_resource type="Script" uid="uid://dxgavuprf4ktt" path="res://ui/action_button/action_button.gd" id="2_5o7vv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3tmfi"]
+radius = 8.0
+
+[node name="MagicAction" type="Area2D"]
+script = ExtResource("2_5o7vv")
+action_type = "Magic"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3tmfi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3tmfi")

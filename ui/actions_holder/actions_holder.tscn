@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://cn25pb2mwr4bj"]
+
+[ext_resource type="Script" uid="uid://di7ts8vrbapm" path="res://ui/actions_holder/actions_holder.gd" id="1_e1n3t"]
+[ext_resource type="PackedScene" uid="uid://o48js2c1lgn4" path="res://ui/actions/magic_action.tscn" id="2_pik1u"]
+[ext_resource type="PackedScene" uid="uid://cwliveqkwib7y" path="res://ui/actions/guard_action.tscn" id="3_j0dx4"]
+[ext_resource type="PackedScene" uid="uid://bd3l4g6s44av1" path="res://ui/actions/start_action.tscn" id="4_euj4b"]
+[ext_resource type="PackedScene" uid="uid://bahbi1oog3v7c" path="res://ui/actions/attack_action.tscn" id="5_32pkp"]
+
+[node name="ActionsHolder" type="Node2D"]
+script = ExtResource("1_e1n3t")
+
+[node name="RemovePos" type="Marker2D" parent="."]
+
+[node name="AttackPos" type="Marker2D" parent="."]
+position = Vector2(-29, -15)
+
+[node name="StartPos" type="Marker2D" parent="."]
+position = Vector2(0, -34)
+
+[node name="GuardPos" type="Marker2D" parent="."]
+position = Vector2(29, -14)
+
+[node name="MagicPos" type="Marker2D" parent="."]
+position = Vector2(18, 23)
+
+[node name="LimitPos" type="Marker2D" parent="."]
+position = Vector2(-18, 24)
+
+[node name="Magic" parent="." instance=ExtResource("2_pik1u")]
+visible = false
+
+[node name="Start" parent="." instance=ExtResource("4_euj4b")]
+visible = false
+
+[node name="Guard" parent="." instance=ExtResource("3_j0dx4")]
+visible = false
+
+[node name="Attack" parent="." instance=ExtResource("5_32pkp")]
+visible = false
