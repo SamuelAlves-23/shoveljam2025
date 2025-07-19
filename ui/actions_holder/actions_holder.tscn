@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bd3l4g6s44av1" path="res://ui/actions/start_action.tscn" id="4_euj4b"]
 [ext_resource type="PackedScene" uid="uid://bahbi1oog3v7c" path="res://ui/actions/attack_action.tscn" id="5_32pkp"]
 
-[node name="ActionsHolder" type="Node2D"]
+[node name="ActionsHolder" type="Node2D" groups=["WeaponHolder"]]
 script = ExtResource("1_e1n3t")
 
 [node name="RemovePos" type="Marker2D" parent="."]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds6iqcp5pihho"]
+
+[ext_resource type="Script" uid="uid://b3mohgn8pyibc" path="res://components/combo_pieces/combo_attack/combo_attack.gd" id="1_ps30r"]
+[ext_resource type="Texture2D" uid="uid://cms4buv2fq4xm" path="res://assets/ui/guard_action.png" id="2_nv0hn"]
+
+[node name="ComboBuard" type="Node2D"]
+script = ExtResource("1_ps30r")
+piece_name = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nv0hn")

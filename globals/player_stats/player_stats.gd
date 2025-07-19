@@ -9,10 +9,11 @@ signal player_dead()
 	"attack": 70,
 	"defense": 5,
 	"exp_mult": 2.0,
-	"parry_chance": 0.1
+	"parry_chance": 0.1,
+	"lifedrain": 0.0
 }
 
-@onready var skills: Array = []
+@onready var guarding: bool = false
 
 func train_stat(stat: String) -> void:
 	var amount: int = 0
@@ -26,17 +27,30 @@ func train_stat(stat: String) -> void:
 	player_stats["exp_mult"] -= 0.15
 
 func damage(amount: int)-> void:
-	var total_amount: int = amount - player_stats["defense"]
+	var total_amount: int = amount
+	if guarding:
+		total_amount -= player_stats["defense"]
+		guarding = false
+		
 	player_stats["current_hp"] -= total_amount
 	player_damaged.emit(total_amount)
 	if player_stats["current_hp"] <= 0:
 		player_dead.emit()
 
+func heal(amount) -> void:
+	if player_stats["current_hp"] + amount >= player_stats["max_hp"]:
+		player_stats["curren_hp"] = player_stats["max_hp"]
+	else:
+		player_stats["current_hp"] += amount
+	player_damaged.emit(-amount)
+
 func reset_stats() -> void:
 	player_stats = {
 		"max_hp" : 100,
 		"current_hp": 100,
-		"attack": 10,
+		"attack": 70,
 		"defense": 5,
-		"exp_mult": 2.0
+		"exp_mult": 2.0,
+		"parry_chance": 0.1,
+		"lifedrain": 0.0
 	}

@@ -1,4 +1,5 @@
 extends Node2D
+class_name ActionsHolder
 
 @onready var remove_pos: Vector2 = $RemovePos.global_position
 @onready var attack_pos: Vector2 = $AttackPos.global_position
@@ -13,12 +14,6 @@ extends Node2D
 @onready var magic: Area2D = $Magic
 
 @export var tween_duration: float = 0.1
-
-func _ready() -> void:
-	await get_tree().create_timer(0.5).timeout
-	await show_actions()
-	await get_tree().create_timer(0.5).timeout
-	await hide_actions()
 
 func show_actions() -> void:
 	var tween = create_tween()

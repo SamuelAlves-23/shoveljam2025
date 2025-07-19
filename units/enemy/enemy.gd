@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name  Enemy
 
 signal enemy_dead(enemy)
+signal enemy_damaged(amount)
 
 enum STATES{
 	ALIVE,
@@ -9,6 +10,7 @@ enum STATES{
 }
 
 @onready var current_state: STATES = STATES.ALIVE
+@onready var guarding: bool = false
 
 @onready var enemy_stats: Dictionary = {
 	"max_hp" : 100,
@@ -39,10 +41,14 @@ func skill() -> void:
 
 
 func damage(amount: int) -> void:
-	var total_amount: int = amount - enemy_stats["defense"]
+	var total_amount: int = amount
+	if guarding:
+		total_amount -= enemy_stats["defense"]
 	enemy_stats["current_hp"] -= total_amount
 	if enemy_stats["current_hp"] <= 0:
 		current_state = STATES.DEAD
+	if PlayerStats.player_stats["lifedrain"] > 0:
+		PlayerStats.heal(total_amount * PlayerStats.player_stats["lifedrain"])
 	update_life(total_amount)
 
 func update_life(amount: int) -> void:
