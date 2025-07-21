@@ -13,23 +13,30 @@ class_name ActionsHolder
 @onready var guard: Area2D = $Guard
 @onready var magic: Area2D = $Magic
 
-@export var tween_duration: float = 0.1
+@export var tween_duration: float = 0.2
+
+func _ready() -> void:
+	show_actions()
 
 func show_actions() -> void:
-	var tween = create_tween()
 	start.show()
-	tween.tween_property(start, "global_position", start_pos, tween_duration)
 	attack.show()
-	tween.tween_property(attack, "global_position", attack_pos, tween_duration)
 	guard.show()
-	tween.tween_property(guard, "global_position", guard_pos, tween_duration)
 	magic.show()
+
+	await get_tree().process_frame  # Asegura actualización de layout antes de tweens si es necesario
+
+	var tween = create_tween()
+	tween.tween_property(start, "global_position", start_pos, tween_duration)
+	tween.tween_property(attack, "global_position", attack_pos, tween_duration)
+	tween.tween_property(guard, "global_position", guard_pos, tween_duration)
 	tween.tween_property(magic, "global_position", magic_pos, tween_duration)
 	await tween.finished
-	start.monitorable = true
-	attack.monitorable = true
-	guard.monitorable = true
-	magic.monitorable = true
+
+	# No es necesario alterar monitorable aquí para Control/Button
+	# Si usas Area2D y lo necesitas:
+	# for b in [start, attack, guard, magic]:
+	#     b.monitorable = true
 
 func hide_actions() -> void:
 	var tween = create_tween()
@@ -37,13 +44,14 @@ func hide_actions() -> void:
 	tween.tween_property(attack, "global_position", remove_pos, tween_duration)
 	tween.tween_property(guard, "global_position", remove_pos, tween_duration)
 	tween.tween_property(magic, "global_position", remove_pos, tween_duration)
-	
 	await tween.finished
+
 	start.hide()
 	attack.hide()
-	magic.hide()
 	guard.hide()
-	start.monitorable = false
-	attack.monitorable = false
-	guard.monitorable = false
-	magic.monitorable = false
+	magic.hide()
+
+	# No es necesario alterar monitorable aquí para Control/Button
+	# Si usas Area2D y lo necesitas:
+	# for b in [start, attack, guard, magic]:
+	#     b.monitorable = false

@@ -35,7 +35,7 @@ func _process(delta) -> void:
 			if first:
 				first = false
 				PlayerStats.guarding = false
-				actions_holder.show_actions()
+				#actions_holder.show_actions()
 		STATES.TARGETING:
 			target_selection()
 		STATES.ENEMY_TURN:
@@ -43,26 +43,25 @@ func _process(delta) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if current_combo.size() !=0:
-		if event.is_action_pressed("attack"):
-			actions_holder.hide_actions()
-			update_state(STATES.TARGETING)
-		elif event.is_action_pressed("guard"):
-			print("BLOQUEANDO")
-			actions_holder.hide_actions()
-			PlayerStats.guarding = true
-			add_combo(GlobalManager.combo_pieces[1])
-			update_state(STATES.ENEMY_TURN)
-		elif event.is_action_pressed("magic"):
-			print("Magia")
-			actions_holder.hide_actions()
-			for enemy in enemies:
-				enemy.damage(ceil(PlayerStats.player_stats["attack"]/ 2))
-			add_combo(GlobalManager.combo_pieces[2])
-			update_state(STATES.ENEMY_TURN)
+	if event.is_action_pressed("attack"):
+		#actions_holder.hide_actions()
+		update_state(STATES.TARGETING)
+	elif event.is_action_pressed("guard"):
+		print("BLOQUEANDO")
+		#actions_holder.hide_actions()
+		PlayerStats.guarding = true
+		add_combo(GlobalManager.combo_pieces[1])
+		update_state(STATES.ENEMY_TURN)
+	elif event.is_action_pressed("magic"):
+		print("Magia")
+		#actions_holder.hide_actions()
+		for enemy in enemies:
+			enemy.damage(ceil(PlayerStats.player_stats["attack"]/ 2))
+		add_combo(GlobalManager.combo_pieces[2])
+		update_state(STATES.ENEMY_TURN)
 	else:
 		print("EMPIEZA EL COMBO")
-		actions_holder.hide_actions()
+		#actions_holder.hide_actions()
 		add_combo(GlobalManager.combo_pieces.pick_random())
 		print(current_combo)
 		update_state(STATES.ENEMY_TURN)
