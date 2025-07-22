@@ -21,6 +21,7 @@ enum STATES{
 @onready var combo_container: HBoxContainer = $ComboContainer
 
 @onready var combo_options: Array = ["attack", "guard", "magic"]
+@onready var allowed_actions: Array = ["attack", "guard", "magic"]
 @onready var current_combo: Array = []
 
 @onready var is_player_turn: bool = true
@@ -41,30 +42,38 @@ func _process(delta) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if current_combo.size() != 0:
-		if event.is_action_pressed("attack"):
-			await actions_holder.hide_actions()
-			update_state(STATES.TARGETING)
-		elif event.is_action_pressed("guard"):
-			print("BLOQUEANDO")
-			await actions_holder.hide_actions()
-			PlayerStats.guarding = true
-			add_combo(GlobalManager.combo_pieces[1])
-			update_state(STATES.ENEMY_TURN)
-		elif event.is_action_pressed("magic"):
-			print("Magia")
-			await actions_holder.hide_actions()
-			for enemy in enemies:
-				enemy.damage(ceil(PlayerStats.player_stats["attack"] / 2))
-				add_combo(GlobalManager.combo_pieces[2])
+	if action_allowed(event):
+		if current_combo.size() != 0:
+			if event.is_action_pressed("attack"):
+				await actions_holder.hide_actions()
+				update_state(STATES.TARGETING)
+			elif event.is_action_pressed("guard"):
+				print("BLOQUEANDO")
+				await actions_holder.hide_actions()
+				PlayerStats.guarding = true
+				add_combo(GlobalManager.combo_pieces[1])
+				print(current_combo)
 				update_state(STATES.ENEMY_TURN)
-	else:
-		print("EMPIEZA EL COMBO")
-		await actions_holder.hide_actions()
-		add_combo(GlobalManager.combo_pieces.pick_random())
-		print(current_combo)
-		update_state(STATES.ENEMY_TURN)
+			elif event.is_action_pressed("magic"):
+				print("Magia")
+				await actions_holder.hide_actions()
+				for enemy in enemies:
+					enemy.damage(ceil(PlayerStats.player_stats["attack"] / 2))
+					add_combo(GlobalManager.combo_pieces[2])
+					print(current_combo)
+					update_state(STATES.ENEMY_TURN)
+		else:
+			print("EMPIEZA EL COMBO")
+			await actions_holder.hide_actions()
+			add_combo(GlobalManager.combo_pieces.pick_random())
+			print(current_combo)
+			update_state(STATES.ENEMY_TURN)
 
+func action_allowed(event: InputEvent) -> bool:
+	for action in allowed_actions:
+		if event.is_action_pressed(action):
+			return true
+	return false
 
 func erase_enemy(enemy) -> void:
 	enemies.erase(enemy)
@@ -109,6 +118,7 @@ func target_selection() -> void:
 func player_attack() -> void:
 	enemies[index].damage(PlayerStats.player_stats["attack"])
 	add_combo(GlobalManager.combo_pieces[0])
+	print(current_combo)
 	update_state(STATES.ENEMY_TURN)
 
 func update_state(new_state: STATES) -> void:
