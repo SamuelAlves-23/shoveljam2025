@@ -1,11 +1,12 @@
 extends Node
 
-signal player_damaged(current_hp)
+signal player_damaged(amount)
+signal player_healed(amount)
 signal player_dead()
 
 @onready var player_stats: Dictionary = {
 	"max_hp" : 100,
-	"current_hp": 100,
+	"current_hp": 80,
 	"attack": 70,
 	"defense": 5,
 	"exp_mult": 2.0,
@@ -14,6 +15,7 @@ signal player_dead()
 }
 
 @onready var guarding: bool = false
+@export var battle_scene: BattleScene
 
 func train_stat(stat: String) -> void:
 	var amount: int = 0
@@ -31,7 +33,7 @@ func damage(amount: int)-> void:
 	if guarding:
 		total_amount -= player_stats["defense"]
 		guarding = false
-		
+	total_amount -= ceil(battle_scene.check_combo(1))
 	player_stats["current_hp"] -= total_amount
 	player_damaged.emit(total_amount)
 	if player_stats["current_hp"] <= 0:
@@ -42,7 +44,7 @@ func heal(amount) -> void:
 		player_stats["curren_hp"] = player_stats["max_hp"]
 	else:
 		player_stats["current_hp"] += amount
-	player_damaged.emit(-amount)
+	player_healed.emit(amount)
 
 func reset_stats() -> void:
 	player_stats = {

@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://6ciff6yj5e2a"]
 
-[ext_resource type="Script" uid="uid://b3mohgn8pyibc" path="res://components/combo_pieces/combo_attack/combo_attack.gd" id="1_u86n7"]
+[ext_resource type="Script" uid="uid://do83kemmhkm5e" path="res://components/combo_pieces/combo_magic/combo_magic.gd" id="1_3nlav"]
 [ext_resource type="Texture2D" uid="uid://dhe15o0guxld2" path="res://assets/ui/magic_action.png" id="2_3nlav"]
 
 [node name="ComboMagic" type="Node2D"]
-script = ExtResource("1_u86n7")
+script = ExtResource("1_3nlav")
 piece_name = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

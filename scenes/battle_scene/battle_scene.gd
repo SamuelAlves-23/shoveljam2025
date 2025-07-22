@@ -1,4 +1,5 @@
 extends Node2D
+class_name BattleScene
 
 #signal player_turn()
 #signal enemy_turn()
@@ -18,15 +19,23 @@ enum STATES{
 @onready var enemies: Array = [$Enemy, $Enemy2, $Enemy3]
 @onready var player: Player = $Player
 @onready var actions_holder: ActionsHolder = $ActionsHolder
-@onready var combo_container: Node2D = $ComboContainer
+@onready var combo_container: HBoxContainer = $CanvasLayer/Control/ComboContainer
+@onready var impulse_combo_pos: Vector2 = $CanvasLayer/Control/ComboContainer/ImpulsePos.global_position
+@onready var combo_01_pos: Vector2 = $CanvasLayer/Control/ComboContainer/Combo01Pos.global_position
+@onready var combo_02_pos: Vector2 = $CanvasLayer/Control/ComboContainer/Combo02Pos.global_position
+@onready var combo_03_pos: Vector2 = $CanvasLayer/Control/ComboContainer/Combo03Pos.global_position
+
 
 @onready var combo_options: Array = ["attack", "guard", "magic"]
 @onready var allowed_actions: Array = ["attack", "guard", "magic"]
 @onready var current_combo: Array = []
 
+
+
 @onready var is_player_turn: bool = true
 
 func _ready() -> void:
+	PlayerStats.battle_scene = self
 	battle_cursor.global_position = cursor_rest_pos
 	for enemy in enemies:
 		enemy.connect("enemy_dead", erase_enemy)
@@ -59,9 +68,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				await actions_holder.hide_actions()
 				for enemy in enemies:
 					enemy.damage(ceil(PlayerStats.player_stats["attack"] / 2))
-					add_combo(GlobalManager.combo_pieces[2])
-					print(current_combo)
-					update_state(STATES.ENEMY_TURN)
+				add_combo(GlobalManager.combo_pieces[2])
+				print(current_combo)
+				update_state(STATES.ENEMY_TURN)
 		else:
 			print("EMPIEZA EL COMBO")
 			await actions_holder.hide_actions()
@@ -82,11 +91,23 @@ func add_combo(piece) -> void:
 	var combo_piece = piece.instantiate()
 	current_combo.append(combo_piece)
 	combo_container.add_child(combo_piece)
-	combo_piece.global_position = combo_container.global_position
+	match current_combo.size():
+		1:
+			combo_piece.global_position = impulse_combo_pos
+		2:
+			combo_piece.global_position = combo_01_pos
+		3:
+			combo_piece.global_position = combo_02_pos
+		4:
+			combo_piece.global_position = combo_03_pos
+			combo_finisher()
+			
 
 func combo_finisher() -> void:
 	print("COMBO FINISHER")
-	current_combo = []
+	for combo in current_combo:
+		combo.queue_free()
+	current_combo.clear()
 
 func player_turn() -> void:
 	if first:
@@ -116,7 +137,9 @@ func target_selection() -> void:
 		first = true
 
 func player_attack() -> void:
-	enemies[index].damage(PlayerStats.player_stats["attack"])
+	var damage: int = PlayerStats.player_stats["attack"]
+	damage += ceil(check_combo(0))
+	enemies[index].damage(damage)
 	add_combo(GlobalManager.combo_pieces[0])
 	print(current_combo)
 	update_state(STATES.ENEMY_TURN)
@@ -124,7 +147,13 @@ func player_attack() -> void:
 func update_state(new_state: STATES) -> void:
 	current_state = new_state
 	first = true
-	
+
+func check_combo(piece_name: int) -> float:
+	var result: float
+	for combo: ComboPiece in current_combo:
+		if combo.piece_name == piece_name:
+			result += combo.passive()
+	return result
 
 func enemy_turn() -> void:
 	for enemy in enemies:

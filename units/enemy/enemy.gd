@@ -11,6 +11,7 @@ enum STATES{
 
 @onready var current_state: STATES = STATES.ALIVE
 @onready var guarding: bool = false
+@onready var battle_scene: BattleScene = get_tree().get_first_node_in_group("BattleScene")
 
 @onready var enemy_stats: Dictionary = {
 	"max_hp" : 100,
@@ -47,8 +48,9 @@ func damage(amount: int) -> void:
 	enemy_stats["current_hp"] -= total_amount
 	if enemy_stats["current_hp"] <= 0:
 		current_state = STATES.DEAD
-	if PlayerStats.player_stats["lifedrain"] > 0:
-		PlayerStats.heal(total_amount * PlayerStats.player_stats["lifedrain"])
+	var lifedrain: float = battle_scene.check_combo(2)
+	if lifedrain > 0:
+		PlayerStats.heal(total_amount * lifedrain)
 	update_life(total_amount)
 
 func update_life(amount: int) -> void:

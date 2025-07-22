@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bc5lfaua2ptgi" path="res://assets/ui/battle_cursor.png" id="6_gp27x"]
 [ext_resource type="PackedScene" uid="uid://cn25pb2mwr4bj" path="res://ui/actions_holder/actions_holder.tscn" id="7_8r7ii"]
 
-[node name="BattleScene" type="Node2D"]
+[node name="BattleScene" type="Node2D" groups=["BattleScene"]]
 script = ExtResource("1_qc2rq")
 
 [node name="TileMapLayer" parent="." instance=ExtResource("1_oofy8")]
@@ -28,6 +28,9 @@ position = Vector2(400, 240)
 position = Vector2(352, -32)
 texture = ExtResource("6_gp27x")
 
+[node name="ActionsHolder" parent="." instance=ExtResource("7_8r7ii")]
+position = Vector2(272, 176)
+
 [node name="Player" parent="." instance=ExtResource("6_8r7ii")]
 position = Vector2(272, 176)
 current_state = 2
@@ -39,14 +42,37 @@ position = Vector2(224, -160)
 position = Vector2(320, 192)
 zoom = Vector2(1.5, 1.5)
 
-[node name="ActionsHolder" parent="." instance=ExtResource("7_8r7ii")]
-position = Vector2(272, 176)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ComboContainer" type="Node2D" parent="."]
-position = Vector2(320, 18)
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
 
-[node name="ComboParent" type="Node" parent="."]
+[node name="ComboContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -116.0
+offset_right = -512.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="Piece01" type="Marker2D" parent="ComboParent"]
+[node name="ImpulsePos" type="Marker2D" parent="CanvasLayer/Control/ComboContainer"]
+
+[node name="Combo01Pos" type="Marker2D" parent="CanvasLayer/Control/ComboContainer"]
+position = Vector2(32, 0)
+
+[node name="Combo02Pos" type="Marker2D" parent="CanvasLayer/Control/ComboContainer"]
+position = Vector2(64, 0)
+
+[node name="Combo03Pos" type="Marker2D" parent="CanvasLayer/Control/ComboContainer"]
+position = Vector2(96, 0)
 
 [editable path="TileMapLayer"]
