@@ -42,5 +42,14 @@ value = 100.0
 texture_progress = ExtResource("4_r7pne")
 metadata/_edit_use_anchors_ = true
 
+[node name="Combo01" type="Marker2D" parent="EnemyHP"]
+position = Vector2(-11, -30)
+
+[node name="Combo02" type="Marker2D" parent="EnemyHP"]
+position = Vector2(0, -30)
+
+[node name="Combo03" type="Marker2D" parent="EnemyHP"]
+position = Vector2(8, -30)
+
 [node name="CursorPosition" type="Marker2D" parent="."]
 position = Vector2(-24, 0)
