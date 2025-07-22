@@ -18,7 +18,7 @@ enum STATES{
 @onready var enemies: Array = [$Enemy, $Enemy2, $Enemy3]
 @onready var player: Player = $Player
 @onready var actions_holder: ActionsHolder = $ActionsHolder
-@onready var combo_container: HBoxContainer = $ComboContainer
+@onready var combo_container: Node2D = $ComboContainer
 
 @onready var combo_options: Array = ["attack", "guard", "magic"]
 @onready var allowed_actions: Array = ["attack", "guard", "magic"]
@@ -82,7 +82,7 @@ func add_combo(piece) -> void:
 	var combo_piece = piece.instantiate()
 	current_combo.append(combo_piece)
 	combo_container.add_child(combo_piece)
-	#combo_piece.global_position = combo_container.global_position
+	combo_piece.global_position = combo_container.global_position
 
 func combo_finisher() -> void:
 	print("COMBO FINISHER")

@@ -42,11 +42,8 @@ zoom = Vector2(1.5, 1.5)
 [node name="ActionsHolder" parent="." instance=ExtResource("7_8r7ii")]
 position = Vector2(272, 176)
 
-[node name="ComboContainer" type="HBoxContainer" parent="."]
-offset_left = 52.0
-offset_top = 48.0
-offset_right = 92.0
-offset_bottom = 88.0
+[node name="ComboContainer" type="Node2D" parent="."]
+position = Vector2(320, 18)
 
 [node name="ComboParent" type="Node" parent="."]
 
