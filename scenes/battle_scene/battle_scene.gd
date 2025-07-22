@@ -14,6 +14,7 @@ enum STATES{
 @onready var battle_cursor: Sprite2D = $BattleCursor
 @onready var index: int = 0
 @onready var first: bool = true
+@onready var changing_state: bool = false
 @onready var enemies: Array = [$Enemy, $Enemy2, $Enemy3]
 @onready var player: Player = $Player
 @onready var actions_holder: ActionsHolder = $ActionsHolder
@@ -32,10 +33,7 @@ func _ready() -> void:
 func _process(delta) -> void:
 	match current_state:
 		STATES.PLAYER_TURN:
-			if first:
-				first = false
-				PlayerStats.guarding = false
-				actions_holder.show_actions()
+			player_turn()
 		STATES.TARGETING:
 			target_selection()
 		STATES.ENEMY_TURN:
@@ -43,29 +41,30 @@ func _process(delta) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if current_combo.size() !=0:
+	if current_combo.size() != 0:
 		if event.is_action_pressed("attack"):
-			actions_holder.hide_actions()
+			await actions_holder.hide_actions()
 			update_state(STATES.TARGETING)
 		elif event.is_action_pressed("guard"):
 			print("BLOQUEANDO")
-			actions_holder.hide_actions()
+			await actions_holder.hide_actions()
 			PlayerStats.guarding = true
 			add_combo(GlobalManager.combo_pieces[1])
 			update_state(STATES.ENEMY_TURN)
 		elif event.is_action_pressed("magic"):
 			print("Magia")
-			actions_holder.hide_actions()
+			await actions_holder.hide_actions()
 			for enemy in enemies:
-				enemy.damage(ceil(PlayerStats.player_stats["attack"]/ 2))
-			add_combo(GlobalManager.combo_pieces[2])
-			update_state(STATES.ENEMY_TURN)
+				enemy.damage(ceil(PlayerStats.player_stats["attack"] / 2))
+				add_combo(GlobalManager.combo_pieces[2])
+				update_state(STATES.ENEMY_TURN)
 	else:
 		print("EMPIEZA EL COMBO")
-		actions_holder.hide_actions()
+		await actions_holder.hide_actions()
 		add_combo(GlobalManager.combo_pieces.pick_random())
 		print(current_combo)
 		update_state(STATES.ENEMY_TURN)
+
 
 func erase_enemy(enemy) -> void:
 	enemies.erase(enemy)
@@ -79,6 +78,12 @@ func add_combo(piece) -> void:
 func combo_finisher() -> void:
 	print("COMBO FINISHER")
 	current_combo = []
+
+func player_turn() -> void:
+	if first:
+		first = false
+		PlayerStats.guarding = false
+		actions_holder.show_actions()
 
 func target_selection() -> void:
 	if first:
@@ -108,7 +113,8 @@ func player_attack() -> void:
 
 func update_state(new_state: STATES) -> void:
 	current_state = new_state
-	#first = true
+	first = true
+	
 
 func enemy_turn() -> void:
 	for enemy in enemies:
